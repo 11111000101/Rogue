@@ -1,20 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace Completed
 {
 	//Enemy inherits from MovingObject, our base class for objects that can move, Player also inherits from this.
-	public class Enemy : MovingObject
+	public class Enemy : MovingObject, Character 
 	{
-		public int playerDamage; 							//The amount of food points to subtract from the player when attacking.
 		public AudioClip attackSound1;						//First of two audio clips to play when attacking the player.
-		public AudioClip attackSound2;						//Second of two audio clips to play when attacking the player.
-		
+		public AudioClip attackSound2;                      //Second of two audio clips to play when attacking the player.
+
+        public int attackPower; 							//The amount of food points to subtract from the player when attacking.
+        private float hp = 100;
 		
 		private Animator animator;							//Variable of type Animator to store a reference to the enemy's Animator component.
-		private Transform target;							//Transform to attempt to move toward each turn.
-		private bool skipMove;								//Boolean to determine whether or not enemy should skip a turn or move this turn.
-		
+		private Transform target;                           //Transform to attempt to move toward each turn.
+
+        private const float Delay = 1;
+        private float nextMove;
 		
 		//Start overrides the virtual Start function of the base class.
 		protected override void Start ()
@@ -28,7 +31,9 @@ namespace Completed
 			
 			//Find the Player GameObject using it's tag and store a reference to its transform component.
 			target = GameObject.FindGameObjectWithTag ("Player").transform;
-			
+
+            nextMove = Time.time + Delay;
+
 			//Call the start function of our base class MovingObject.
 			base.Start ();
 		}
@@ -38,19 +43,10 @@ namespace Completed
 		//See comments in MovingObject for more on how base AttemptMove function works.
 		protected override void AttemptMove <T> (int xDir, int yDir)
 		{
-			//Check if skipMove is true, if so set it to false and skip this turn.
-			if(skipMove)
-			{
-				skipMove = false;
-				return;
-				
-			}
-			
+            if (Time.time < nextMove) return;
+            nextMove = Time.time + Delay;
 			//Call the AttemptMove function from MovingObject.
 			base.AttemptMove <T> (xDir, yDir);
-			
-			//Now that Enemy has moved, set skipMove to true to skip next move.
-			skipMove = true;
 		}
 		
 		
@@ -86,7 +82,7 @@ namespace Completed
 			Player hitPlayer = component as Player;
 			
 			//Call the LoseFood function of hitPlayer passing it playerDamage, the amount of foodpoints to be subtracted.
-			hitPlayer.LoseFood (playerDamage);
+			hitPlayer.getPlayerData().defend(new MeleeAttack());
 			
 			//Set the attack trigger of animator to trigger Enemy attack animation.
 			animator.SetTrigger ("enemyAttack");
@@ -94,5 +90,15 @@ namespace Completed
 			//Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
 			SoundManager.instance.RandomizeSfx (attackSound1, attackSound2);
 		}
-	}
+
+        public float getHP()
+        {
+            return this.hp;
+        }
+
+        public void defend(IAttack attack)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
