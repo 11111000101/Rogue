@@ -91,5 +91,13 @@ public class InventoryManager : MonoBehaviour {
     public void onExitBtnClicked()
     {
         print("exit");
+        loadGame();
+    }
+
+    private void loadGame()
+    {
+        //Load the last scene loaded, in this case Main, the only scene in the game.
+        UnityEngine.SceneManagement.SceneManager.LoadScene("SceneMain");
+        //Application.LoadLevel(Application.loadedLevel);
     }
 }
