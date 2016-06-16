@@ -9,7 +9,7 @@ namespace Completed
     {
         public void onCloseBtnClicked()
         {
-            print("closing");
+
         }
     }
 }

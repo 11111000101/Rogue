@@ -19,12 +19,12 @@ namespace Completed {
 
         public void updateHP() {
             //if (HealthPointsText != null)
-            GameManager.instance.HealthPointsText.text = "HP: " + GameManager.instance.pData.getHP();
+            GameObject.Find("HealthPointsText").GetComponent<Text>().text = "HP: " + GameManager.getInstance().getPlayerData().getHP();
         }
 
         public void updateAP() {
             //if (ActionPointsText != null)
-            GameManager.instance.ActionPointsText.text = "AP: " + (int)GameManager.instance.pData.getAP();
+            GameObject.Find("ActionPointsText").GetComponent<Text>().text = "AP: " + (int)GameManager.getInstance().getPlayerData().getAP();
         }
     }
 

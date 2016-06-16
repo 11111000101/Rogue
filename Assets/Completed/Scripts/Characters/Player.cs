@@ -136,7 +136,7 @@ namespace Completed
                 return;
             }
             //Every time player moves, subtract from AP total.
-            GameManager.instance.pData.playerMoved();
+            GameManager.getInstance().getPlayerData().playerMoved();
 
             //Update AP text display to reflect current score.
             UserInterface.getInstance().updateAP();
@@ -177,12 +177,12 @@ namespace Completed
 		{
 			//Check if the tag of the trigger collided with is Exit.
 			if(other.tag == "Exit")
-			{
+            {
+                //Disable the player object since level is over.
+                enabled = false;
+                GameManager.getInstance().onLevelFinished();
 				//Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
-				Invoke ("Restart", restartLevelDelay);
-				
-				//Disable the player object since level is over.
-				enabled = false;
+				//Invoke ("Restart", restartLevelDelay);
 			}
 			
 			////Check if the tag of the trigger collided with is Food.
@@ -219,7 +219,7 @@ namespace Completed
 
         public PlayerData getPlayerData()
         {
-            return GameManager.instance.pData;
+            return GameManager.getInstance().getPlayerData();
         }
 	}
 }

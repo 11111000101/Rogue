@@ -45,10 +45,9 @@ namespace Completed
         // calculate damage and substract it from hp
         public void defend(IAttack attack)
         {
-            GameManager.print("losing hp!");
             --this.hp;
             UserInterface.getInstance().updateHP();
-            GameManager.instance.CheckIfGameOver();
+            GameManager.getInstance().CheckForGameOver();
         }
 
         internal bool hasEnoughAPToMove()
