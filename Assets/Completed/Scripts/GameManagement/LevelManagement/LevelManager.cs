@@ -35,7 +35,6 @@ namespace Completed
                 Destroy(gameObject);
                 //Sets this to not be destroyed when reloading scene
             }
-            DontDestroyOnLoad(gameObject);
             //Assign enemies to a new List of Enemy objects.
             enemies = new List<Enemy>();
             //Get a component reference to the attached BoardManager script
