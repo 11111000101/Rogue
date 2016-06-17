@@ -64,7 +64,6 @@ namespace Completed
 
         public void onLevelFinished()
         {
-            MonoBehaviour.print("onLevelFinished");
             ++level;
             Object.Destroy(lvlManager);
             UnityEngine.SceneManagement.SceneManager.LoadScene("SceneInventory");

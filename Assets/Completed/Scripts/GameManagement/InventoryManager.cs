@@ -28,7 +28,6 @@ namespace Completed
         //This is called each time a scene is loaded.
         void OnLevelWasLoaded(int index)
         {
-            print("OnLevelWasLoaded");
         }
 
         //Update is called every frame.
@@ -46,7 +45,6 @@ namespace Completed
 
         public void onExitBtnClicked()
         {
-            print("closing");
             GameManager.getInstance().onClosePlayerInventory();
         }
 

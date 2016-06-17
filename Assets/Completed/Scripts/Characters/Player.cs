@@ -130,7 +130,6 @@ namespace Completed
 		//AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
 		protected override void AttemptMove <T> (int xDir, int yDir)
 		{
-            print("attemptMove");
             if (this.isMoving() || this.getPlayerData().hasEnoughAPToMove() == false)
             {
                 return;
@@ -150,7 +149,6 @@ namespace Completed
 			//If Move returns true, meaning Player was able to move into an empty space.
 			if (Move (xDir, yDir, out hit)) 
 			{
-                print("move");
 				//Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
 				SoundManager.instance.RandomizeSfx (moveSound1, moveSound2);
 			}
