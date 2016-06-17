@@ -87,6 +87,16 @@ namespace Completed
         {
             return this.inventory;
         }
+
+        public void replenishHP()
+        {
+            this.hp = 100;
+        }
+
+        public void replenishAP()
+        {
+            this.ap = MaxAP;
+        }
     }
 
 }

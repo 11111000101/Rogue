@@ -66,6 +66,8 @@ namespace Completed
         {
             ++level;
             Object.Destroy(lvlManager);
+            this.getPlayerData().replenishAP();
+            this.getPlayerData().replenishHP();
             UnityEngine.SceneManagement.SceneManager.LoadScene("SceneInventory");
         }
 
