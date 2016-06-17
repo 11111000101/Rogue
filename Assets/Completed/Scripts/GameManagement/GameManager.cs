@@ -60,13 +60,11 @@ namespace Completed
         public void onClosePlayerInventory()
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("SceneMain");
-            //instance.lvlManager = gameObject.AddComponent<LevelManager>();
-            //BoardManager boardScript = GetComponent<BoardManager>();
-            //instance.lvlManager.InitGame(boardScript, level);
         }
 
         public void onLevelFinished()
         {
+            MonoBehaviour.print("onLevelFinished");
             ++level;
             Object.Destroy(lvlManager);
             UnityEngine.SceneManagement.SceneManager.LoadScene("SceneInventory");

@@ -80,10 +80,7 @@ namespace Completed
         //This is called each time a scene is loaded.
 		void OnLevelWasLoaded(int index)
 		{
-			//Add one to our level number.
-			level++;
-			//Call InitGame to initialize our level.
-			InitGame();
+            return;
         }
 
         //Hides black image used between levels
