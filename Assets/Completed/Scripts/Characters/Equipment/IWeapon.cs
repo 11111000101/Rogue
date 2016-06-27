@@ -1,15 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IWeapon : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+public abstract class IWeapon : Item {
+    public int AP1, AP2;
+    public int time1, time2;
+    public int dmg, dmgEffect;
+    public int range, aoe;
+    
 }
