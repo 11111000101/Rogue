@@ -91,8 +91,8 @@ namespace Completed
         public void SetupScene(int level)
         {
             levelHolder = new Level1();
-            int columns = levelHolder.getColumns();                                      //Number of columns in our game board.
-            int rows = levelHolder.getRows();                                            //Number of rows in our game board.
+            columns = levelHolder.getColumns();                                      //Number of columns in our game board.
+            rows = levelHolder.getRows();                                            //Number of rows in our game board.
 
             //Creates the outer walls and floor.
             BoardSetup();
