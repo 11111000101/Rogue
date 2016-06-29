@@ -1,46 +1,83 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
-public class GameOverManager : MonoBehaviour {
-
-    public Text WinLoseText { set; get; }
-    public Text HealthPointsText { set; get; }
-
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-    public void onWin(int MaxLives)
+namespace Completed
+{
+    public class GameOverManager : MonoBehaviour
     {
+        public Text WinLoseText { set; get; }
 
-    }
+        //Awake is always called before any Start functions
+        void Awake()
+        {
+            GameManager.getInstance().setGameOverManager(this);
+            if (GameManager.getInstance().getPlayerData().getMaxLife() <= 0)
+            {
+                GameObject.Find("ContinueBtn").SetActive(false);
+            } else
+            {
+                GameObject.Find("RestartBtn").SetActive(false);
+            }
+            GameObject.Find("heartImg").GetComponentInChildren<Text>().text
+                = "" + GameManager.getInstance().getPlayerData().getMaxLife();
+        }
 
-    public void GameOver()
-    {
-        ////Set levelText to display number of levels passed and game over message
-        //levelText.text = "After " + level + " days, you died.";
+        // Use this for initialization
+        void Start()
+        {
+        }
 
-        ////Enable black background image gameObject.
-        //levelImage.SetActive(true);
+        public void setWinLoseText(string txt)
+        {
+            GameObject.Find("WinLose").GetComponent<Text>().text = txt;
+        }
 
-        //Disable this GameManager.
-        enabled = false;
-    }
+        public void setContinueBtnText(string txt)
+        {
+            GameObject.Find("ContinueButton").GetComponent<Button>().GetComponent<Text>().text = txt;
+        }
 
-    void onRestartButtonClicked()
-    {
+        public void setCloseBtnText(string txt)
+        {
+            GameObject.Find("SaveAndExitButton").GetComponent<Button>().GetComponent<Text>().text = txt;
+        }
 
-    }
+        public void onWin(int MaxLives)
+        {
 
-    void onExitButtonClicked()
-    {
+        }
 
+        public void GameOver()
+        {
+            string continueBtnText = "Restart";
+            string winLoseText = "You lost!";
+            string closeBtnText = "Close";
+            if (GameManager.getInstance().getPlayerData().getCurrentNofLifes() > 0)
+            {
+                continueBtnText = "Continue";
+                closeBtnText = "Save & Close";
+            }
+            setContinueBtnText(continueBtnText);
+            setCloseBtnText(closeBtnText);
+            setWinLoseText(winLoseText);
+        }
+
+        public void onContinueBtnClicked()
+        {
+
+        }
+
+        public void onRestartButtonClicked()
+        {
+
+        }
+
+        public void onExitButtonClicked()
+        {
+            //if lost, quit game without saving
+            //GameManager manager = GameManager.getInstance();
+            //manager.save();
+            //manager.quit();
+        }
     }
 }

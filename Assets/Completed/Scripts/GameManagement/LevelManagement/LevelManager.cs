@@ -14,6 +14,7 @@ namespace Completed
         public float levelStartDelay = 2f;                      //Time to wait before starting level, in seconds.
         public float turnDelay = 0.1f;                          //Delay between each Player turn.
 
+        private GameObject heart;
         private Text levelText;                                 //Text to display current level number.
         private GameObject levelImage;                          //Image to block out level as levels are being set up, background for levelText.
         private BoardManager boardScript;                       //Store a reference to our BoardManager which will set up the level.
@@ -33,18 +34,23 @@ namespace Completed
             {
                 //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
                 Destroy(gameObject);
-                //Sets this to not be destroyed when reloading scene
             }
+            //Sets this to not be destroyed when reloading scene
+            //DontDestroyOnLoad(gameObject);
             //Assign enemies to a new List of Enemy objects.
             enemies = new List<Enemy>();
             //Get a component reference to the attached BoardManager script
             boardScript = GetComponent<BoardManager>();
 
             GameManager gManager = GameManager.getInstance();
+            gManager.setBoardScript(boardScript);
             gManager.setLevelManager(this);
             this.level = gManager.getLevel();
             //Call the InitGame function to initialize the first level 
             InitGame();
+
+            Physics2D.gravity = new Vector2();
+
             //Assign enemies to a new List of Enemy objects.
             enemies = new List<Enemy>();
         }
@@ -79,6 +85,8 @@ namespace Completed
         //This is called each time a scene is loaded.
 		void OnLevelWasLoaded(int index)
 		{
+            heart = GameObject.Find("heartImg");
+            heart.GetComponentInChildren<Text>().text = "" + GameManager.getInstance().getPlayerData().getMaxLife();
             return;
         }
 
@@ -93,14 +101,14 @@ namespace Completed
         }
 
         //Update is called every frame.
-		void Update()
+		public void Update()
 		{
 			//Check that doingSetup is not currently true.
 			if(doingSetup)
 				return;
-			
-			//Start moving enemies.
-			StartCoroutine(MoveEnemies ());
+
+            //Start moving enemies.
+            StartCoroutine(MoveEnemies ());
 		}
 
         //Coroutine to move enemies in sequence.
@@ -108,20 +116,21 @@ namespace Completed
         {
             //Wait for turnDelay seconds, defaults to .1 (100 ms).
             yield return new WaitForSeconds(turnDelay);
-
             //If there are no enemies spawned (IE in first level):
             if (enemies.Count == 0)
             {
                 //Wait for turnDelay seconds between moves, replaces delay caused by enemies moving when there are none.
                 yield return new WaitForSeconds(turnDelay);
             }
-
+            
             //Loop through List of Enemy objects.
             for (int i = 0; i < enemies.Count; i++)
             {
                 //Call the MoveEnemy function of Enemy at index i in the enemies List.
-                if (!enemies[i].isMoving())
+              //  if (!enemies[i].isMoving())
+                {
                     enemies[i].MoveEnemy();
+                }
 
                 //Wait for Enemy's moveTime before moving next Enemy, 
                 yield return new WaitForSeconds(enemies[i].moveTime);
@@ -133,6 +142,11 @@ namespace Completed
         {
             //Add Enemy to List enemies.
             enemies.Add(script);
+        }
+        
+        public void RemoveEnemyFromList(Enemy e)
+        {
+            this.enemies.Remove(e);
         }
     }
 }

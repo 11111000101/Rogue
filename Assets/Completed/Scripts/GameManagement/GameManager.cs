@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 
 namespace Completed
 {
@@ -26,8 +26,12 @@ namespace Completed
         }
         //**************************************************
         private PlayerData pData = null;
+        private InventoryManager invManager = null;
+        private BoardManager boardScript = null;
         private LevelManager lvlManager = null;
+        private GameOverManager gameOverManager = null;
         private int level = 1;
+
         //**************************************************
 
         public PlayerData getPlayerData()
@@ -38,6 +42,21 @@ namespace Completed
         public void setLevelManager(LevelManager lvlManager)
         {
             this.lvlManager = lvlManager;
+        }
+
+        public void setGameOverManager(GameOverManager manager)
+        {
+            this.gameOverManager = manager;
+        }
+
+        public void setInventoryManager(InventoryManager invManager)
+        {
+            this.invManager = invManager;
+        }
+
+        public InventoryManager getInventoryManager()
+        {
+            return this.invManager;
         }
 
         public LevelManager getLevelManager()
@@ -54,18 +73,20 @@ namespace Completed
 
         public void update()
         {
-
+            this.getLevelManager().Update();
         }
 
         public void onClosePlayerInventory()
         {
+            UnityEngine.Object.Destroy(this.invManager);
             UnityEngine.SceneManagement.SceneManager.LoadScene("SceneMain");
         }
 
         public void onLevelFinished()
         {
             ++level;
-            Object.Destroy(lvlManager);
+            UnityEngine.Object.Destroy(this.boardScript);
+            UnityEngine.Object.Destroy(this.lvlManager);
             this.getPlayerData().replenishAP();
             this.getPlayerData().replenishHP();
             UnityEngine.SceneManagement.SceneManager.LoadScene("SceneInventory");
@@ -78,52 +99,41 @@ namespace Completed
 
         public void CheckForGameOver()
         {
-
+            if (pData.getHP() <= 0)
+            {
+                pData.lost();
+                loadGameOverScene();
+            }
         }
 
-        //**************************************************
+        public void setBoardScript(BoardManager boardScript)
+        {
+            this.boardScript = boardScript;
+        }
 
+        private void loadGameOverScene() // only in case of death...
+        {
+            UnityEngine.Object.Destroy(lvlManager);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("SceneGameOver");
+            while (gameOverManager == null)
+                continue;
+            gameOverManager.GameOver();
+        }
 
-        ////Awake is always called before any Start functions
-        //void Awake()
-        //{
-        //    //Check if instance already exists
-        //    if (instance == null)
-        //    {
-        //        //if not, set instance to this
-        //        instance = this;
-        //    }
-        //    //If instance already exists and it's not this:
-        //    else if (instance != this)
-        //    {
-        //        //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
-        //        Destroy(gameObject);
-        //    }
+        public void save()
+        {
+            throw new NotImplementedException();
+        }
 
-        //    //Sets this to not be destroyed when reloading scene
-        //    DontDestroyOnLoad(gameObject);
-        //    //Get a component reference to the attached BoardManager script
-        //    BoardManager boardScript = GetComponent<BoardManager>();
-        //    this.pData = new PlayerData();
-        //    if (instance.lvlManager == null)
-        //        instance.lvlManager = gameObject.AddComponent<LevelManager>();
-        //    instance.lvlManager.InitGame(boardScript, level);
-        //}
+        public void quit()
+        {
+            throw new NotImplementedException();
+        }
 
-        ////CheckIfGameOver checks if the player is out of hp and if so, ends the game.
-        //public void CheckIfGameOver()
-        //{
-        //    //Check if hp total is less than or equal to zero.
-        //    if (pData.getHP() <= 0)
-        //    {
-        //        //Call the PlaySingle function of SoundManager and pass it the gameOverSound as the audio clip to play.
-        //        SoundManager.instance.PlaySingle(gameOverSound);
-        //        //Stop the background music.
-        //        SoundManager.instance.musicSource.Stop();
-        //        //Call the GameOver function of GameManager.
-        //        GameManager.instance.GameOver();
-        //    }
-        //}
+        public void restart()
+        {
+
+        }
     }
 }
 

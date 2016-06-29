@@ -1,19 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class WoodenAmulett : ITrinket {
+namespace Completed
+{
+    public class WoodenAmulett : Trinket
+    {
+        protected Skill skill;
 
-	// Use this for initialization
-	void Start () {
-        ap = 5;
-        cooldown = 1;
-        duration = 1;
+        public override Texture2D getIcon()
+        {
+            throw new NotImplementedException();
+        }
 
-        // Utility (Q): Block the next ranged attack for 1s
+        public override string getItemType()
+        {
+            return "trinket";
+        }
+
+        public override int getRequiredActionPoints()
+        {
+            // 5
+            return getSkill().getRequiredActionPoints();
+        }
+
+        public override Skill getSkill()
+        {
+            return skill;
+        }
     }
-
-    // Update is called once per frame
-    void Update () {
-	
-	}
 }

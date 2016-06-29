@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;	//Allows us to use UI.
 
 namespace Completed {
@@ -20,11 +19,16 @@ namespace Completed {
         public void updateHP() {
             //if (HealthPointsText != null)
             GameObject.Find("HealthPointsText").GetComponent<Text>().text = "HP: " + GameManager.getInstance().getPlayerData().getHP();
+            GameObject.Find("HPImage").GetComponent<Image>().fillAmount =
+                GameManager.getInstance().getPlayerData().getHP()
+                / PlayerData.MaxHP;
         }
 
         public void updateAP() {
-            //if (ActionPointsText != null)
             GameObject.Find("ActionPointsText").GetComponent<Text>().text = "AP: " + (int)GameManager.getInstance().getPlayerData().getAP();
+            GameObject.Find("APImage").GetComponent<Image>().fillAmount =
+                GameManager.getInstance().getPlayerData().getAP()
+                / PlayerData.MaxAP;
         }
     }
 

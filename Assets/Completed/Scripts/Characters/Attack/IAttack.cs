@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 namespace Completed
 { 
 
-    public abstract class IAttack
+    public interface IAttack
     {
-        protected IElement element = null;
-        public abstract float calculateDamage(IDefence def);
+        int getAttackPower();
+        IElement getElement();
+        void animate(Vector2 pos, Vector2 direction);
+        float checkProjection(Vector2 from, Vector2 directionFacing);
+        void setResultingPower(int v);
     }
 
 }

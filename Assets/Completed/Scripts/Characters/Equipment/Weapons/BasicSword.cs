@@ -1,22 +1,49 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class BasicSword : IWeapon {
+namespace Completed
+{
+    public class BasicSword : Weapon
+    {
+        private float castTime = 1f;
+        private float range = 1f;
+        private int requiredActionPoints = 1;
+        private int attackPower = 5;
+        private IElement element;
 
-	// Use this for initialization
-	void Start () {
-        AP1 = 10;
-        AP2 = -1;
-        time1 = 1;
-        time2 = -1;
-        dmg = 5;
-        dmgEffect = -1;
-        range = 0;
-        aoe = 0;
+        protected override void attack(Vector2 playerPos, Vector2 target)
+        {
+            IAttack attack = new MeleeAttack(this);
+            attack.checkProjection(playerPos, target);
+        }
+
+        public override int getAttackPower()
+        {
+            return this.attackPower;
+        }
+
+        public override float getCastTime()
+        {
+            return castTime;
+        }
+
+        public override IElement getElement()
+        {
+            return this.element;
+        }
+
+        public override float getRange()
+        {
+            return range;
+        }
+
+        public override int getRequiredActionPoints()
+        {
+            return requiredActionPoints;
+        }
+
+        public override string getItemType()
+        {
+            return "sword";
+        }
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

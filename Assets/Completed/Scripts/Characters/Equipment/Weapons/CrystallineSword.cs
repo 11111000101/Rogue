@@ -1,24 +1,50 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CrystallineSword : IWeapon {
+namespace Completed
+{
+    public class CrystallineSword : Weapon
+    {
+        private float castTime = 1f;
+        private float range = 1f;
+        private int requiredActionPoints = 1;
+        private int attackPower = 15;
+        private IElement element;
 
-	// Use this for initialization
-	void Start () {
-        AP1 = 10;
-        AP2 = 75;
-        time1 = 1;
-        time2 = 2;
-        dmg = 15;
-        dmgEffect = 30;
-        range = 0;
-        aoe = 0;
+        protected override void attack(Vector2 playerPos, Vector2 target)
+        {
+            IAttack attack = new MeleeAttack(this);
+            attack.checkProjection(playerPos, target);
+        }
 
-        //Effect = ??
+        public override int getAttackPower()
+        {
+            return this.attackPower;
+        }
+
+        public override float getCastTime()
+        {
+            return castTime;
+        }
+
+        public override IElement getElement()
+        {
+            return this.element;
+        }
+
+        public override float getRange()
+        {
+            return range;
+        }
+
+        public override int getRequiredActionPoints()
+        {
+            return requiredActionPoints;
+        }
+
+        public override string getItemType()
+        {
+            return "sword";
+        }
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
