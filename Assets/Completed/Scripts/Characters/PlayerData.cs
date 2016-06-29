@@ -16,7 +16,7 @@ namespace Completed
         private float ap = MaxAP;
         private float hp = 100;
         private IWeapon weapon { get; set; }
-        private IShield shield { get; set; }
+        private IArmor shield { get; set; }
 
         private PlayerInventory inventory;
 
